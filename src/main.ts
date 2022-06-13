@@ -2,6 +2,7 @@ import {
   BoxGeometry,
   Camera,
   DoubleSide,
+  FogExp2,
   Material,
   Mesh,
   MeshBasicMaterial,
@@ -16,15 +17,19 @@ import './style.css';
 
 const scene: Scene = new Scene();
 const box: Mesh = getBox(1, 1, 1);
-const plane: Mesh = getPlane(4);
+const plane: Mesh = getPlane(20);
 const camera: Camera = new PerspectiveCamera(
   45,
   window.innerWidth / window.innerHeight,
   1,
   1000
 );
-const renderer: Renderer = new WebGLRenderer();
+const renderer: WebGLRenderer = new WebGLRenderer();
 
+// Addinf fog to the scene.
+scene.fog = new FogExp2(0xffffff, 0.2);
+
+// Placing objects to the scene.
 scene.add(box);
 scene.add(plane);
 
@@ -42,8 +47,17 @@ camera.lookAt(new Vector3(0, 0, 0));
 
 // Rendering the scene.
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0xffffff);
 document.getElementById('app')?.appendChild(renderer.domElement);
-renderer.render(scene, camera);
+renderScene(renderer, scene, camera);
+
+function renderScene(renderer: Renderer, scene: Scene, camera: Camera): void {
+  renderer.render(scene, camera);
+
+  requestAnimationFrame(() => {
+    renderScene(renderer, scene, camera);
+  });
+}
 
 /**
  * Returns a Box.
