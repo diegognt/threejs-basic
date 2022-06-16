@@ -1,7 +1,10 @@
 import {GUI} from 'dat.gui';
 import {
+  AmbientLight,
   BoxGeometry,
   Camera,
+  CameraHelper,
+  DirectionalLight,
   DoubleSide,
   Group,
   Material,
@@ -32,20 +35,24 @@ const camera: Camera = new PerspectiveCamera(
   1000
 );
 const renderer: WebGLRenderer = new WebGLRenderer({antialias: true});
-const spotLight = getSpotLight(1);
+const light = getDirectionalLight(1, 10);
+const ambientLight: AmbientLight = getAmbientLight(1);
 const gui: GUI = new GUI();
+const cameraHelper: CameraHelper = new CameraHelper(light.shadow.camera);
 
 // Placing objects to the scene.
 scene.add(boxGrid);
 scene.add(plane);
-spotLight.add(lightSphere);
-scene.add(spotLight);
+light.add(lightSphere);
+scene.add(light);
+scene.add(ambientLight);
+scene.add(cameraHelper);
 
 //Plane rotation for better looking due camera perspective.
 plane.rotation.x = Math.PI / 2;
 
 //Placing the point light.
-spotLight.position.y = 2;
+light.position.y = 4;
 
 //Camera position.
 camera.position.x = 1;
@@ -54,9 +61,10 @@ camera.position.z = 5;
 camera.lookAt(new Vector3(0, 0, 0));
 
 //Adding GUI controllers
-gui.add(spotLight, 'intensity', 0, 10);
-gui.add(spotLight.position, 'y', 1, 15);
-gui.add(spotLight, 'penumbra', 0, 1);
+gui.add(light, 'intensity', 0, 10);
+gui.add(light.position, 'x', -15, 15);
+gui.add(light.position, 'y', 2, 10);
+gui.add(light.position, 'z', -15, 15);
 
 // Rendering the scene.
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -155,7 +163,7 @@ function getPlane(size: number): Mesh {
 }
 
 /**
- * Returns a Point of light.
+ * Returns a PointLight.
  *
  * @param {number} intensity The initial point of light intensity.
  * @returns {Mesh} The actual point of light.
@@ -180,6 +188,43 @@ function getSpotLight(intensity: number): SpotLight {
   light.shadow.bias = 0.001;
   light.shadow.mapSize.width = 2048;
   light.shadow.mapSize.height = 2048;
+
+  return light;
+}
+
+/**
+ * Returns a DirectionalLight casting shadows.
+ *
+ * @param {number} intensity The initial point of light intensity.
+ * @param {number} fieldOfView The field of view used to cast shadows.
+ * @returns {DirectionalLight} A instanciated object of the DirectionalLight class
+ */
+function getDirectionalLight(
+  intensity: number,
+  fieldOfView: number
+): DirectionalLight {
+  const light: DirectionalLight = new DirectionalLight(
+    'rgb(255, 255, 255)',
+    intensity
+  );
+
+  light.castShadow = true;
+  light.shadow.camera.left = fieldOfView * -1;
+  light.shadow.camera.bottom = fieldOfView * -1;
+  light.shadow.camera.right = fieldOfView;
+  light.shadow.camera.top = fieldOfView;
+
+  return light;
+}
+
+/**
+ * Returns an AmbientLight.
+ *
+ * @param {number} intensity The initial point of light intensity.
+ * @returns {AmbientLight} A instanciated object of the AmbientLight class
+ */
+function getAmbientLight(intensity: number): AmbientLight {
+  const light: AmbientLight = new AmbientLight('rgb(10, 30, 50)', intensity);
 
   return light;
 }
