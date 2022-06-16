@@ -4,8 +4,10 @@ import {
   BoxGeometry,
   Camera,
   CameraHelper,
+  Clock,
   DirectionalLight,
   DoubleSide,
+  FogExp2,
   Group,
   Material,
   Mesh,
@@ -39,6 +41,12 @@ const light = getDirectionalLight(1, 10);
 const ambientLight: AmbientLight = getAmbientLight(1);
 const gui: GUI = new GUI();
 const cameraHelper: CameraHelper = new CameraHelper(light.shadow.camera);
+const clock: Clock = new Clock();
+
+//Adding a name to some elements of the scene.
+boxGrid.name = 'box-grid';
+
+// scene.fog = new FogExp2(0xffffff, 0.2);
 
 // Placing objects to the scene.
 scene.add(boxGrid);
@@ -74,7 +82,7 @@ document.getElementById('app')?.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
-renderScene(renderer, scene, camera, controls);
+renderScene(renderer, scene, camera, controls, clock);
 
 /**
  * Renders a ThreeJS scene using the requestAnimationFrame API.
@@ -88,12 +96,19 @@ function renderScene(
   renderer: Renderer,
   scene: Scene,
   camera: Camera,
-  controls: OrbitControls
+  controls: OrbitControls,
+  clock: Clock
 ): void {
   renderer.render(scene, camera);
   controls.update();
+
+  scene.getObjectByName('box-grid')?.children.forEach((child, index) => {
+    child.scale.y = (Math.sin(clock.getElapsedTime() + index) + 1) / 2 + 0.001;
+    child.position.y = child.scale.y;
+  });
+
   requestAnimationFrame(() => {
-    renderScene(renderer, scene, camera, controls);
+    renderScene(renderer, scene, camera, controls, clock);
   });
 }
 
@@ -128,7 +143,7 @@ function getBoxGrid(amount = 3, separation = 1.5): Group {
 
   for (let x = 0; x < amount; x++) {
     for (let y = 0; y < amount; y++) {
-      const box = getBox(1, 1, 1);
+      const box = getBox(1, 2, 1);
 
       box.position.x = x * separation;
       box.position.y = (box.geometry as BoxGeometry).parameters.height / 2;
@@ -213,6 +228,8 @@ function getDirectionalLight(
   light.shadow.camera.bottom = fieldOfView * -1;
   light.shadow.camera.right = fieldOfView;
   light.shadow.camera.top = fieldOfView;
+  light.shadow.mapSize.width = 4096;
+  light.shadow.mapSize.height = 4096;
 
   return light;
 }
