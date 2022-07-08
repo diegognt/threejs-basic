@@ -7,7 +7,6 @@ import {
   Clock,
   DirectionalLight,
   DoubleSide,
-  FogExp2,
   Group,
   Material,
   Mesh,
@@ -45,8 +44,6 @@ const clock: Clock = new Clock();
 
 //Adding a name to some elements of the scene.
 boxGrid.name = 'box-grid';
-
-// scene.fog = new FogExp2(0xffffff, 0.2);
 
 // Placing objects to the scene.
 scene.add(boxGrid);
