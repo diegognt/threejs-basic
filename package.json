@@ -10,6 +10,8 @@
     "clean": "gts clean",
     "compile": "tsc",
     "fix": "gts fix",
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
     "prepare": "npm run compile",
     "pretest": "npm run compile",
     "posttest": "npm run lint"
@@ -20,7 +22,8 @@
     "@types/three": "^0.141.0",
     "gts": "^3.1.0",
     "typescript": "^4.7.3",
-    "vite": "^2.9.9"
+    "vite": "^2.9.9",
+    "vitest": "^0.17.1"
   },
   "dependencies": {
     "dat.gui": "^0.7.9",
