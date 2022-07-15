@@ -14,15 +14,16 @@ import {
   MeshPhongMaterial,
   PerspectiveCamera,
   PlaneGeometry,
-  PointLight,
+  // PointLight,
   Renderer,
   Scene,
   SphereGeometry,
-  SpotLight,
+  // SpotLight,
   Vector3,
   WebGLRenderer,
 } from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
+import {BasicBoxBuilder} from './builders/box-builders';
 import './style.css';
 
 const scene: Scene = new Scene();
@@ -118,14 +119,12 @@ function renderScene(
  * @returns {Mesh} The actual box.
  */
 function getBox(width: number, height: number, depth: number): Mesh {
-  const geometry: BoxGeometry = new BoxGeometry(width, height, depth);
-  const material: Material = new MeshPhongMaterial({
-    color: 'rgb(120, 120, 120)',
-  });
-  const mesh: Mesh = new Mesh(geometry, material);
+  const builder = new BasicBoxBuilder();
+  builder.createGeometry(width, height, depth);
+  builder.setMaterial({color: 'rgb(125, 125, 125)'});
+  builder.createMesh();
 
-  mesh.castShadow = true;
-  return mesh;
+  return builder.getResult();
 }
 
 /**
@@ -180,29 +179,29 @@ function getPlane(size: number): Mesh {
  * @param {number} intensity The initial point of light intensity.
  * @returns {Mesh} The actual point of light.
  */
-function getPointLight(intensity: number): PointLight {
-  const light: PointLight = new PointLight('rgb(255, 255, 255)', intensity);
-
-  light.castShadow = true;
-
-  return light;
-}
+// function getPointLight(intensity: number): PointLight {
+//   const light: PointLight = new PointLight('rgb(255, 255, 255)', intensity);
+//
+//   light.castShadow = true;
+//
+//   return light;
+// }
 
 /* Returns a SpotLight.
  *
  * @param {number} intensity The initial point of light intensity.
  * @returns {Mesh} The actual point of light.
  */
-function getSpotLight(intensity: number): SpotLight {
-  const light: SpotLight = new SpotLight('rgb(255, 255, 255)', intensity);
-
-  light.castShadow = true;
-  light.shadow.bias = 0.001;
-  light.shadow.mapSize.width = 2048;
-  light.shadow.mapSize.height = 2048;
-
-  return light;
-}
+// function getSpotLight(intensity: number): SpotLight {
+//   const light: SpotLight = new SpotLight('rgb(255, 255, 255)', intensity);
+//
+//   light.castShadow = true;
+//   light.shadow.bias = 0.001;
+//   light.shadow.mapSize.width = 2048;
+//   light.shadow.mapSize.height = 2048;
+//
+//   return light;
+// }
 
 /**
  * Returns a DirectionalLight casting shadows.

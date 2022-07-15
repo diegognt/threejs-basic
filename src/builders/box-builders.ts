@@ -1,4 +1,4 @@
-import {BoxGeometry, Material, Mesh, MeshPhongMaterial} from 'three';
+import {BoxGeometry, Mesh, MeshPhongMaterial} from 'three';
 
 /**
  * An interface specifiying the methods for creating the different box builders.
@@ -22,10 +22,10 @@ interface BoxBuilder {
 export class BasicBoxBuilder implements BoxBuilder {
   private mesh: Mesh | undefined;
   private geometry: BoxGeometry | undefined;
-  private material: Material | undefined;
+  private material: MeshPhongMaterial | undefined;
 
   /**
-   * Creates an instance of the ShinyBoxBuilder.
+   * Creates an instance of the BasicBoxBuilder.
    *
    * @constructor
    */
