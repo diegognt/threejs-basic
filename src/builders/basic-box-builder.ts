@@ -1,18 +1,5 @@
 import {BoxGeometry, Mesh, MeshPhongMaterial} from 'three';
-
-/**
- * An interface specifiying the methods for creating the different box builders.
- *
- * @interface
- */
-interface BoxBuilder {
-  createGeometry(width: number, height: number, depth: number): void;
-  setMaterial(options: Object): void;
-  createMesh(): void;
-  allowsToCastShadow(): void;
-  getResult(): Mesh;
-  reset(): void;
-}
+import {BoxBuilder} from './base';
 
 /**
  * Concrete implementation of a Box builder used to create a basic box.
@@ -57,9 +44,9 @@ export class BasicBoxBuilder implements BoxBuilder {
   }
 
   /**
-   * Sets the material that makes the box shiny.
+   * Sets the material to draw the box.
    *
-   * The material to be used can be created with a set of options
+   * The material to be used can be instanciated with a set of options
    * such as color, please check the THREE documentation for more
    * information.
    *
