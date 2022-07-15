@@ -10,25 +10,24 @@ import {
   Group,
   Material,
   Mesh,
-  MeshBasicMaterial,
   MeshPhongMaterial,
   PerspectiveCamera,
   PlaneGeometry,
   // PointLight,
   Renderer,
   Scene,
-  SphereGeometry,
   // SpotLight,
   Vector3,
   WebGLRenderer,
 } from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
-import {BasicBoxBuilder} from './builders/box-builders';
+import {BasicBoxBuilder} from './builders/basic-box-builder';
+import {LightSphereBuilder} from './builders/light-sphere-builder';
 import './style.css';
 
 const scene: Scene = new Scene();
 const plane: Mesh = getPlane(20);
-const lightSphere = getSphere(0.05);
+const lightSphere = getLightSphere();
 const boxGrid = getBoxGrid(10);
 const camera: Camera = new PerspectiveCamera(
   45,
@@ -243,16 +242,16 @@ function getAmbientLight(intensity: number): AmbientLight {
 }
 
 /**
- * Returns a Sphere.
+ * Returns a LightSphere.
  *
- * @param {number} radius The sphere radius.
  * @returns {Mesh} The actual sphere.
  */
-function getSphere(radius: number): Mesh {
-  const geometry: SphereGeometry = new SphereGeometry(radius, 24, 24);
-  const material: Material = new MeshBasicMaterial({
-    color: 'rgb(255, 255, 255)',
-  });
+function getLightSphere(): Mesh {
+  const builder = new LightSphereBuilder();
 
-  return new Mesh(geometry, material);
+  builder.createGeometry();
+  builder.setMaterial({color: 'rgb(255, 255, 255)'});
+  builder.createMesh();
+
+  return builder.getResult();
 }
