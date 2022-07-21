@@ -8,11 +8,8 @@ import {
   DirectionalLight,
   DoubleSide,
   Group,
-  Material,
   Mesh,
-  MeshPhongMaterial,
   PerspectiveCamera,
-  PlaneGeometry,
   // PointLight,
   Renderer,
   Scene,
@@ -22,7 +19,8 @@ import {
 } from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {BasicBoxBuilder} from './builders/basic-box-builder';
-import {LightSphereBuilder} from './builders/light-sphere-builder';
+import {BasicPlaneBuilder} from './builders/basic-plane-builder';
+import {LightBulbSphereBuilder} from './builders/light-bulb-sphere-builder';
 import './style.css';
 
 const scene: Scene = new Scene();
@@ -160,16 +158,17 @@ function getBoxGrid(amount = 3, separation = 1.5): Group {
  * @returns {Mesh} The actual plane
  */
 function getPlane(size: number): Mesh {
-  const geometry: PlaneGeometry = new PlaneGeometry(size, size);
-  const material: Material = new MeshPhongMaterial({
+  const builder = new BasicPlaneBuilder();
+
+  builder.createGeometry(size, size);
+  builder.setMaterial({
     color: 'rgb(120, 120, 120)',
     side: DoubleSide,
   });
-  const mesh: Mesh = new Mesh(geometry, material);
+  builder.createMesh();
+  builder.allowsToReceiveShadow();
 
-  mesh.receiveShadow = true;
-
-  return mesh;
+  return builder.getResult();
 }
 
 /**
@@ -247,7 +246,7 @@ function getAmbientLight(intensity: number): AmbientLight {
  * @returns {Mesh} The actual sphere.
  */
 function getLightSphere(): Mesh {
-  const builder = new LightSphereBuilder();
+  const builder = new LightBulbSphereBuilder();
 
   builder.createGeometry();
   builder.setMaterial({color: 'rgb(255, 255, 255)'});
