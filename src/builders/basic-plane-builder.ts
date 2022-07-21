@@ -1,31 +1,19 @@
-import {Mesh, PlaneGeometry, MeshPhongMaterial} from 'three';
-import {PlaneBuilder} from './base';
+import {PlaneGeometry, MeshPhongMaterial} from 'three';
+import {AbstractShapeBuilder, PlaneBuilder} from './base';
 
 /**
  * A concrete implementation of a PlaneBuilder use to create
  * a basic plane.
  */
-export class BasicPlaneBuilder implements PlaneBuilder {
-  private geometry: PlaneGeometry | undefined;
-  private material: MeshPhongMaterial | undefined;
-  private mesh: Mesh | undefined;
-
+export class BasicPlaneBuilder
+  extends AbstractShapeBuilder
+  implements PlaneBuilder
+{
   /**
    * Creates an instance of a BasicPlaneBuilder.
    */
   constructor() {
-    this.reset();
-  }
-
-  /**
-   * Resets the box properties.
-   *
-   * @returns {void}
-   */
-  reset(): void {
-    this.material = undefined;
-    this.geometry = undefined;
-    this.mesh = undefined;
+    super();
   }
 
   /**
@@ -63,42 +51,5 @@ export class BasicPlaneBuilder implements PlaneBuilder {
    */
   setMaterial(options: Object): void {
     this.material = new MeshPhongMaterial(options);
-  }
-
-  /**
-   * Creates a Mesh representing the polygon mesh of a sphere.
-   *
-   * @throws {Error} Throws if there is not a defined geometry.
-   * @throws {Error} Throws if there is not a defined material.
-   * @returns {void}
-   */
-  createMesh(): void {
-    if (!this.geometry) {
-      throw new Error('The geometry has not been created.');
-    }
-
-    if (!this.material) {
-      throw new Error('The material has not been set yet.');
-    }
-
-    this.mesh = new Mesh(this.geometry, this.material);
-  }
-
-  /**
-   * Return the polygon mesh representation of a basic box.
-   *
-   * @throws {Error} Throws if there is not a defined Mesh
-   * @returns {Mesh} The mesh representation of a box.
-   */
-  getResult(): Mesh {
-    if (!this.mesh) {
-      throw new Error('The mesh has not been created.');
-    }
-
-    const result: Mesh = this.mesh;
-
-    this.reset();
-
-    return result;
   }
 }

@@ -1,34 +1,22 @@
-import {BoxGeometry, Mesh, MeshPhongMaterial} from 'three';
-import {BoxBuilder} from './base';
+import {BoxGeometry, MeshPhongMaterial} from 'three';
+import {AbstractShapeBuilder, BoxBuilder} from './base';
 
 /**
  * Concrete implementation of a Box builder used to create a basic box.
  *
  * @implements BoxBuilder
  */
-export class BasicBoxBuilder implements BoxBuilder {
-  private mesh: Mesh | undefined;
-  private geometry: BoxGeometry | undefined;
-  private material: MeshPhongMaterial | undefined;
-
+export class BasicBoxBuilder
+  extends AbstractShapeBuilder
+  implements BoxBuilder
+{
   /**
    * Creates an instance of the BasicBoxBuilder.
    *
    * @constructor
    */
   constructor() {
-    this.reset();
-  }
-
-  /**
-   * Resets the box properties.
-   *
-   * @returns {void}
-   */
-  reset(): void {
-    this.material = undefined;
-    this.geometry = undefined;
-    this.mesh = undefined;
+    super();
   }
 
   /**
@@ -58,25 +46,6 @@ export class BasicBoxBuilder implements BoxBuilder {
   }
 
   /**
-   * Creates a Mesh representing the polygon mesh of a box.
-   *
-   * @throws {Error} Throws if there is not a defined geometry.
-   * @throws {Error} Throws if there is not a defined material.
-   * @returns {void}
-   */
-  createMesh(): void {
-    if (!this.geometry) {
-      throw new Error('The geometry has not been created.');
-    }
-
-    if (!this.material) {
-      throw new Error('The material has not been set yet.');
-    }
-
-    this.mesh = new Mesh(this.geometry, this.material);
-  }
-
-  /**
    * Allows the box to cast shadows.
    *
    * @throws {Error} Throws if there is not a defined Mesh
@@ -88,23 +57,5 @@ export class BasicBoxBuilder implements BoxBuilder {
     }
 
     this.mesh.castShadow = true;
-  }
-
-  /**
-   * Return the polygon mesh representation of a basic box.
-   *
-   * @throws {Error} Throws if there is not a defined Mesh
-   * @returns {Mesh} The mesh representation of a box.
-   */
-  getResult(): Mesh {
-    if (!this.mesh) {
-      throw new Error('The mesh has not been created.');
-    }
-
-    const result: Mesh = this.mesh;
-
-    this.reset();
-
-    return result;
   }
 }
