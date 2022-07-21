@@ -1,5 +1,5 @@
-import {Mesh, MeshBasicMaterial, SphereGeometry} from 'three';
-import {SphereBuilder} from './base';
+import {MeshBasicMaterial, SphereGeometry} from 'three';
+import {AbstractShapeBuilder, SphereBuilder} from './base';
 
 /**
  * A concrete implementation of a sphere builder used to create
@@ -7,27 +7,15 @@ import {SphereBuilder} from './base';
  *
  * @implements BoxBuilder
  */
-export class LightBulbSphereBuilder implements SphereBuilder {
-  private mesh: Mesh | undefined;
-  private geometry: SphereGeometry | undefined;
-  private material: MeshBasicMaterial | undefined;
-
+export class LightBulbSphereBuilder
+  extends AbstractShapeBuilder
+  implements SphereBuilder
+{
   /**
    * Creates an instance of a LightSphereBuilder.
    */
   constructor() {
-    this.reset();
-  }
-
-  /**
-   * Resets the box properties.
-   *
-   * @returns {void}
-   */
-  reset(): void {
-    this.material = undefined;
-    this.geometry = undefined;
-    this.mesh = undefined;
+    super();
   }
 
   /**
@@ -53,42 +41,5 @@ export class LightBulbSphereBuilder implements SphereBuilder {
    */
   setMaterial(options: Object): void {
     this.material = new MeshBasicMaterial(options);
-  }
-
-  /**
-   * Creates a Mesh representing the polygon mesh of a sphere.
-   *
-   * @throws {Error} Throws if there is not a defined geometry.
-   * @throws {Error} Throws if there is not a defined material.
-   * @returns {void}
-   */
-  createMesh(): void {
-    if (!this.geometry) {
-      throw new Error('The geometry has not been created.');
-    }
-
-    if (!this.material) {
-      throw new Error('The material has not been set yet.');
-    }
-
-    this.mesh = new Mesh(this.geometry, this.material);
-  }
-
-  /**
-   * Return the polygon mesh representation of a basic box.
-   *
-   * @throws {Error} Throws if there is not a defined Mesh
-   * @returns {Mesh} The mesh representation of a box.
-   */
-  getResult(): Mesh {
-    if (!this.mesh) {
-      throw new Error('The mesh has not been created.');
-    }
-
-    const result: Mesh = this.mesh;
-
-    this.reset();
-
-    return result;
   }
 }
