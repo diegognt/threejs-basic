@@ -30,3 +30,13 @@ export interface BoxBuilder extends ShapeBuilder {
 export interface SphereBuilder extends ShapeBuilder {
   createGeometry(): void;
 }
+
+/**
+ * An interface specifiying the methods for creating the different plane builders.
+ *
+ * @interface
+ */
+export interface PlaneBuilder extends ShapeBuilder {
+  createGeometry(width: number, height: number): void;
+  allowsToReceiveShadow(): void;
+}

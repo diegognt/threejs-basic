@@ -1,19 +1,17 @@
-import {Mesh, MeshBasicMaterial, SphereGeometry} from 'three';
-import {SphereBuilder} from './base';
+import {Mesh, PlaneGeometry, MeshPhongMaterial} from 'three';
+import {PlaneBuilder} from './base';
 
 /**
- * Concrete implementation of a sphere builder used to create
- * a sphere used to represent a light bulb.
- *
- * @implements BoxBuilder
+ * A concrete implementation of a PlaneBuilder use to create
+ * a basic plane.
  */
-export class LightSphereBuilder implements SphereBuilder {
+export class BasicPlaneBuilder implements PlaneBuilder {
+  private geometry: PlaneGeometry | undefined;
+  private material: MeshPhongMaterial | undefined;
   private mesh: Mesh | undefined;
-  private geometry: SphereGeometry | undefined;
-  private material: MeshBasicMaterial | undefined;
 
   /**
-   * Creates an instance of a LightSphereBuilder.
+   * Creates an instance of a BasicPlaneBuilder.
    */
   constructor() {
     this.reset();
@@ -31,14 +29,26 @@ export class LightSphereBuilder implements SphereBuilder {
   }
 
   /**
-   * Creates the geometry used by the sphere.
+   * Creates the geometry to used by the plane.
    *
-   * Uses the SphereGeometry class to build a fixed geometry for the sphere.
+   * Uses the PlaneGeometry class to build a fixed geometry for the plane.
    *
+   * @param {number} width The plane width.
+   * @param {number} height The plane height.
    * @returns {void}
    */
-  createGeometry(): void {
-    this.geometry = new SphereGeometry(0.05, 24, 24);
+  createGeometry(width: number, height: number): void {
+    this.geometry = new PlaneGeometry(width, height);
+  }
+
+  /**
+   * Allows the mesh to receive shadows.
+   */
+  allowsToReceiveShadow(): void {
+    if (!this.mesh) {
+      throw new Error('The Mesh has not been created.');
+    }
+    this.mesh.receiveShadow = true;
   }
 
   /**
@@ -52,7 +62,7 @@ export class LightSphereBuilder implements SphereBuilder {
    * @returns {void}
    */
   setMaterial(options: Object): void {
-    this.material = new MeshBasicMaterial(options);
+    this.material = new MeshPhongMaterial(options);
   }
 
   /**
