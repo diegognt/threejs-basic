@@ -6,7 +6,7 @@ import {LightBulbSphereBuilder} from './light-bulb-sphere-builder';
 jest.mock('three');
 let builder: SphereBuilder;
 
-describe('The LightSphere class', () => {
+describe('The LightBulbSphere class', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
