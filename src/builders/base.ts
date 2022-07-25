@@ -1,5 +1,6 @@
 import {
   BoxGeometry,
+  DirectionalLight,
   Material,
   Mesh,
   PlaneGeometry,
@@ -89,7 +90,7 @@ export abstract class AbstractShapeBuilder implements ShapeBuilder {
   }
 
   /**
-   * Return the polygon mesh representation of a shape.
+   * Returns the polygon mesh representation of a shape.
    *
    * @throws {Error} Throws if there is not a defined Mesh
    * @returns {Mesh} The mesh representation of a box.
@@ -116,4 +117,14 @@ export abstract class AbstractShapeBuilder implements ShapeBuilder {
     this.geometry = undefined;
     this.mesh = undefined;
   }
+}
+
+export interface DirectionalLightBuilder {
+  setColor(color: string): void;
+  setIntensity(intensity: number): void;
+  allowsToCastShadow(): void;
+  setLightView(fieldOfView: number): void;
+  setMapSize(width: number, height: number): void;
+  getResult(): DirectionalLight;
+  reset(): void;
 }

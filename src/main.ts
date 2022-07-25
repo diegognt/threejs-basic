@@ -10,16 +10,15 @@ import {
   Group,
   Mesh,
   PerspectiveCamera,
-  // PointLight,
   Renderer,
   Scene,
-  // SpotLight,
   Vector3,
   WebGLRenderer,
 } from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {BasicBoxBuilder} from './builders/basic-box-builder';
 import {BasicPlaneBuilder} from './builders/basic-plane-builder';
+import {BasicDirectionalLightBuilder} from './builders/directional-light-builder';
 import {LightBulbSphereBuilder} from './builders/light-bulb-sphere-builder';
 import './style.css';
 
@@ -212,20 +211,15 @@ function getDirectionalLight(
   intensity: number,
   fieldOfView: number
 ): DirectionalLight {
-  const light: DirectionalLight = new DirectionalLight(
-    'rgb(255, 255, 255)',
-    intensity
-  );
+  const builder = new BasicDirectionalLightBuilder();
 
-  light.castShadow = true;
-  light.shadow.camera.left = fieldOfView * -1;
-  light.shadow.camera.bottom = fieldOfView * -1;
-  light.shadow.camera.right = fieldOfView;
-  light.shadow.camera.top = fieldOfView;
-  light.shadow.mapSize.width = 4096;
-  light.shadow.mapSize.height = 4096;
+  builder.setColor('rgb(255, 255, 255)');
+  builder.setIntensity(intensity);
+  builder.setLightView(fieldOfView);
+  builder.setMapSize(4096, 4096);
+  builder.allowsToCastShadow();
 
-  return light;
+  return builder.getResult();
 }
 
 /**
