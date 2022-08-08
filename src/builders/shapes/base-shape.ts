@@ -1,6 +1,5 @@
 import {
   BoxGeometry,
-  DirectionalLight,
   Material,
   Mesh,
   PlaneGeometry,
@@ -8,7 +7,8 @@ import {
 } from 'three';
 
 /**
- * An interface specifiying the methods for creating the different shape builders.
+ * An interface specifiying the methods for creating the different shape
+ * builders.
  *
  * @interface
  */
@@ -20,7 +20,8 @@ export interface ShapeBuilder {
 }
 
 /**
- * An interface specifiying the methods for creating the different box builders.
+ * An interface specifiying the methods for creating the different box
+ * builders.
  *
  * @interface
  */
@@ -30,7 +31,8 @@ export interface BoxBuilder extends ShapeBuilder {
 }
 
 /**
- * An interface specifiying the methods for creating the different sphere builders.
+ * An interface specifiying the methods for creating the different sphere
+ * builders.
  *
  * @interface
  */
@@ -39,7 +41,8 @@ export interface SphereBuilder extends ShapeBuilder {
 }
 
 /**
- * An interface specifiying the methods for creating the different plane builders.
+ * An interface specifiying the methods for creating the different plane
+ * builders.
  *
  * @interface
  */
@@ -117,14 +120,4 @@ export abstract class AbstractShapeBuilder implements ShapeBuilder {
     this.geometry = undefined;
     this.mesh = undefined;
   }
-}
-
-export interface DirectionalLightBuilder {
-  setColor(color: string): void;
-  setIntensity(intensity: number): void;
-  allowsToCastShadow(): void;
-  setLightView(fieldOfView: number): void;
-  setMapSize(width: number, height: number): void;
-  getResult(): DirectionalLight;
-  reset(): void;
 }

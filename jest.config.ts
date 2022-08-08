@@ -6,6 +6,8 @@
 export default {
   verbose: true,
 
+  rootDir: './tests/',
+
   // Automatically clear mock calls, instances, contexts and results before every test
   clearMocks: true,
 

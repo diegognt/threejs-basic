@@ -1,5 +1,5 @@
 import {MeshBasicMaterial, SphereGeometry} from 'three';
-import {AbstractShapeBuilder, SphereBuilder} from './base';
+import {AbstractShapeBuilder, SphereBuilder} from './base-shape';
 
 /**
  * A concrete implementation of a sphere builder used to create

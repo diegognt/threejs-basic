@@ -1,7 +1,7 @@
 import {Mesh, MeshBasicMaterial, SphereGeometry} from 'three';
 import {assertShapeConstructorBuilder} from '../helpers/builder-test';
-import {SphereBuilder} from './base';
-import {LightBulbSphereBuilder} from './light-bulb-sphere-builder';
+import {SphereBuilder} from '../../../src/builders/shapes/base-shape';
+import {LightBulbSphereBuilder} from '../../../src/builders/shapes/light-bulb-sphere-builder';
 
 jest.mock('three');
 let builder: SphereBuilder;

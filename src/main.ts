@@ -16,15 +16,14 @@ import {
   WebGLRenderer,
 } from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
-import {BasicBoxBuilder} from './builders/basic-box-builder';
-import {BasicPlaneBuilder} from './builders/basic-plane-builder';
-import {BasicDirectionalLightBuilder} from './builders/directional-light-builder';
-import {LightBulbSphereBuilder} from './builders/light-bulb-sphere-builder';
+import {BasicBoxBuilder} from './builders/shapes/basic-box-builder';
+import {BasicPlaneBuilder} from './builders/shapes/basic-plane-builder';
+import {SimpleDirectionalLightBuilder} from './builders/lights/simple-directional-light-builder';
+import {LightBulbSphereBuilder} from './builders/shapes/light-bulb-sphere-builder';
 import './style.css';
 
 const scene: Scene = new Scene();
 const plane: Mesh = getPlane(20);
-const lightSphere = getLightSphere();
 const boxGrid = getBoxGrid(10);
 const camera: Camera = new PerspectiveCamera(
   45,
@@ -45,7 +44,6 @@ boxGrid.name = 'box-grid';
 // Placing objects to the scene.
 scene.add(boxGrid);
 scene.add(plane);
-light.add(lightSphere);
 scene.add(light);
 scene.add(ambientLight);
 scene.add(cameraHelper);
@@ -171,36 +169,6 @@ function getPlane(size: number): Mesh {
 }
 
 /**
- * Returns a PointLight.
- *
- * @param {number} intensity The initial point of light intensity.
- * @returns {Mesh} The actual point of light.
- */
-// function getPointLight(intensity: number): PointLight {
-//   const light: PointLight = new PointLight('rgb(255, 255, 255)', intensity);
-//
-//   light.castShadow = true;
-//
-//   return light;
-// }
-
-/* Returns a SpotLight.
- *
- * @param {number} intensity The initial point of light intensity.
- * @returns {Mesh} The actual point of light.
- */
-// function getSpotLight(intensity: number): SpotLight {
-//   const light: SpotLight = new SpotLight('rgb(255, 255, 255)', intensity);
-//
-//   light.castShadow = true;
-//   light.shadow.bias = 0.001;
-//   light.shadow.mapSize.width = 2048;
-//   light.shadow.mapSize.height = 2048;
-//
-//   return light;
-// }
-
-/**
  * Returns a DirectionalLight casting shadows.
  *
  * @param {number} intensity The initial point of light intensity.
@@ -211,13 +179,14 @@ function getDirectionalLight(
   intensity: number,
   fieldOfView: number
 ): DirectionalLight {
-  const builder = new BasicDirectionalLightBuilder();
+  const builder = new SimpleDirectionalLightBuilder();
 
   builder.setColor('rgb(255, 255, 255)');
   builder.setIntensity(intensity);
   builder.setLightView(fieldOfView);
   builder.setMapSize(4096, 4096);
   builder.allowsToCastShadow();
+  builder.addLightSource(getLightSphere());
 
   return builder.getResult();
 }
@@ -229,7 +198,7 @@ function getDirectionalLight(
  * @returns {AmbientLight} A instanciated object of the AmbientLight class
  */
 function getAmbientLight(intensity: number): AmbientLight {
-  const light: AmbientLight = new AmbientLight('rgb(10, 30, 50)', intensity);
+  const light: AmbientLight = new AmbientLight('rgb(54, 69, 79)', intensity);
 
   return light;
 }
