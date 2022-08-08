@@ -1,5 +1,5 @@
 import {PlaneGeometry, MeshPhongMaterial} from 'three';
-import {AbstractShapeBuilder, PlaneBuilder} from './base';
+import {AbstractShapeBuilder, PlaneBuilder} from './base-shape';
 
 /**
  * A concrete implementation of a PlaneBuilder use to create

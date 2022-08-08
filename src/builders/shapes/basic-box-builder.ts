@@ -1,5 +1,5 @@
 import {BoxGeometry, MeshPhongMaterial} from 'three';
-import {AbstractShapeBuilder, BoxBuilder} from './base';
+import {AbstractShapeBuilder, BoxBuilder} from './base-shape';
 
 /**
  * Concrete implementation of a Box builder used to create a basic box.

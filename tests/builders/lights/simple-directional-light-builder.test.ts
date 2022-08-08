@@ -1,5 +1,5 @@
 import {Color, DirectionalLight} from 'three';
-import {BasicDirectionalLightBuilder} from './directional-light-builder';
+import {SimpleDirectionalLightBuilder} from '../../../src/builders/lights/simple-directional-light-builder';
 
 jest.mock('three', () => {
   const actualThree = jest.requireActual('three');
@@ -10,8 +10,8 @@ jest.mock('three', () => {
   };
 });
 
-describe('The BasicDirectionalLightBuilder', () => {
-  let builder: BasicDirectionalLightBuilder;
+describe('The SimpleDirectionalLightBuilder', () => {
+  let builder: SimpleDirectionalLightBuilder;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -20,10 +20,10 @@ describe('The BasicDirectionalLightBuilder', () => {
   describe('the constructor', () => {
     it('should call the `reset` method.', () => {
       // Prepare
-      const spy = jest.spyOn(BasicDirectionalLightBuilder.prototype, 'reset');
+      const spy = jest.spyOn(SimpleDirectionalLightBuilder.prototype, 'reset');
 
       // Act
-      const act = () => new BasicDirectionalLightBuilder();
+      const act = () => new SimpleDirectionalLightBuilder();
 
       // Assert
       expect(act).not.toThrowError();
@@ -33,7 +33,7 @@ describe('The BasicDirectionalLightBuilder', () => {
 
   describe('the `setColor` method', () => {
     beforeEach(() => {
-      builder = new BasicDirectionalLightBuilder();
+      builder = new SimpleDirectionalLightBuilder();
     });
 
     it('should assing the color using an instance of the THREE `Color` class.', () => {
@@ -50,12 +50,12 @@ describe('The BasicDirectionalLightBuilder', () => {
 
   describe('the `getResult` method', () => {
     beforeEach(() => {
-      builder = new BasicDirectionalLightBuilder();
+      builder = new SimpleDirectionalLightBuilder();
     });
 
     it('should have called the `reset` method', () => {
       // Prepare
-      const spy = jest.spyOn(BasicDirectionalLightBuilder.prototype, 'reset');
+      const spy = jest.spyOn(SimpleDirectionalLightBuilder.prototype, 'reset');
 
       // Act
       const act = () => builder.getResult();
@@ -68,7 +68,7 @@ describe('The BasicDirectionalLightBuilder', () => {
 
   describe('the result', () => {
     beforeEach(() => {
-      builder = new BasicDirectionalLightBuilder();
+      builder = new SimpleDirectionalLightBuilder();
     });
 
     it('should be an instance of the `DirectionalLight` class.', () => {
@@ -139,7 +139,7 @@ describe('The BasicDirectionalLightBuilder', () => {
   describe('the `reset` method', () => {
     it('should set the default values to the light properties', () => {
       // Prepare
-      const builder = new BasicDirectionalLightBuilder();
+      const builder = new SimpleDirectionalLightBuilder();
 
       builder.setColor('rgb(130, 130, 130)');
       builder.setIntensity(3);

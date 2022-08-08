@@ -1,4 +1,4 @@
-import {BasicBoxBuilder} from './basic-box-builder';
+import {BasicBoxBuilder} from '../../../src/builders/shapes/basic-box-builder';
 import {BoxGeometry, Mesh, MeshPhongMaterial} from 'three';
 import {assertShapeConstructorBuilder} from '../helpers/builder-test';
 

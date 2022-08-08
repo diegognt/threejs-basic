@@ -1,5 +1,5 @@
-import {Color, DirectionalLight} from 'three';
-import {DirectionalLightBuilder} from './base';
+import {Color, DirectionalLight, Mesh} from 'three';
+import {AbstractLightBuilder, DirectionalLightBuilder} from './base-light';
 
 /**
  * A concrete implementation of a DirectionalLight builder used to create
@@ -7,14 +7,19 @@ import {DirectionalLightBuilder} from './base';
  *
  * @implements DirectionalLightBuilder
  */
-export class BasicDirectionalLightBuilder implements DirectionalLightBuilder {
-  private light!: DirectionalLight;
-
+export class SimpleDirectionalLightBuilder
+  extends AbstractLightBuilder
+  implements DirectionalLightBuilder
+{
   /**
    * Creates an instance of the BasicDirectionalLightBuilder
    */
   constructor() {
-    this.reset();
+    super();
+  }
+
+  addLightSource(source: Mesh): void {
+    this.light.add(source);
   }
 
   /**
@@ -25,16 +30,6 @@ export class BasicDirectionalLightBuilder implements DirectionalLightBuilder {
    */
   setColor(color: string): void {
     this.light.color = new Color(color);
-  }
-
-  /**
-   * Sets the light intensity.
-   *
-   * @param {number} intensity The intensity as numerical value.
-   * @returns {void}
-   */
-  setIntensity(intensity: number): void {
-    this.light.intensity = intensity;
   }
 
   /**
@@ -57,10 +52,10 @@ export class BasicDirectionalLightBuilder implements DirectionalLightBuilder {
    * @returns {void}
    */
   setLightView(fieldOfView: number): void {
-    this.light.shadow.camera.left = fieldOfView * -1;
-    this.light.shadow.camera.bottom = fieldOfView * -1;
-    this.light.shadow.camera.right = fieldOfView;
-    this.light.shadow.camera.top = fieldOfView;
+    (this.light as DirectionalLight).shadow.camera.left = fieldOfView * -1;
+    (this.light as DirectionalLight).shadow.camera.bottom = fieldOfView * -1;
+    (this.light as DirectionalLight).shadow.camera.right = fieldOfView;
+    (this.light as DirectionalLight).shadow.camera.top = fieldOfView;
   }
 
   /**
@@ -77,16 +72,16 @@ export class BasicDirectionalLightBuilder implements DirectionalLightBuilder {
   }
 
   /**
-   * Returns the directional light object representation.
+   * Returns the light object representation.
    *
-   * @returns {DirectionalLight} The directional light representation.
+   * @returns {DirectionalLight} The light representation.
    */
   getResult(): DirectionalLight {
     const result = this.light;
 
     this.reset();
 
-    return result;
+    return result as DirectionalLight;
   }
 
   /**
