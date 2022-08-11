@@ -1,6 +1,6 @@
 import {BasicBoxBuilder} from '../../../src/builders/shapes/basic-box-builder';
 import {BoxGeometry, Mesh, MeshPhongMaterial} from 'three';
-import {assertShapeConstructorBuilder} from '../helpers/builder-test';
+import {assertConstructorBuilder} from '../helpers/builder-test';
 
 jest.mock('three');
 
@@ -16,7 +16,7 @@ describe('The BasicBoxBuilder class', () => {
     const builder = new BasicBoxBuilder();
 
     //Assert
-    assertShapeConstructorBuilder(builder, spy);
+    assertConstructorBuilder(builder, spy);
   });
 
   it('should be able to create the box Geometry', () => {
@@ -80,7 +80,7 @@ describe('The BasicBoxBuilder class', () => {
     expect(act).toThrowError();
   });
 
-  it('should throw and error gettting a result without a mesh', () => {
+  it('should throw and error when tried to get a result without a mesh', () => {
     const builder = new BasicBoxBuilder();
     const act = () => builder.getResult();
 

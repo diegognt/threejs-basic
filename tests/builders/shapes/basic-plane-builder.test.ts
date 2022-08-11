@@ -1,5 +1,5 @@
 import {Mesh, MeshPhongMaterial, PlaneGeometry} from 'three';
-import {assertShapeConstructorBuilder} from '../helpers/builder-test';
+import {assertConstructorBuilder} from '../helpers/builder-test';
 import {BasicPlaneBuilder} from '../../../src/builders/shapes/basic-plane-builder';
 
 jest.mock('three');
@@ -19,7 +19,7 @@ describe('The BasicPlaneBuilder class', () => {
       builder = new BasicPlaneBuilder();
 
       // Assert
-      assertShapeConstructorBuilder(builder, spy);
+      assertConstructorBuilder(builder, spy);
     });
   });
 

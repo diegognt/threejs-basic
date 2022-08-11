@@ -1,5 +1,5 @@
 import {Mesh, MeshBasicMaterial, SphereGeometry} from 'three';
-import {assertShapeConstructorBuilder} from '../helpers/builder-test';
+import {assertConstructorBuilder} from '../helpers/builder-test';
 import {SphereBuilder} from '../../../src/builders/shapes/base-shape';
 import {LightBulbSphereBuilder} from '../../../src/builders/shapes/light-bulb-sphere-builder';
 
@@ -20,7 +20,7 @@ describe('The LightBulbSphere class', () => {
       builder = new LightBulbSphereBuilder();
 
       //Assert
-      assertShapeConstructorBuilder(builder, spy);
+      assertConstructorBuilder(builder, spy);
     });
   });
 
@@ -60,7 +60,7 @@ describe('The LightBulbSphere class', () => {
       builder = new LightBulbSphereBuilder();
     });
 
-    it('should be able to create a mesh after create a geometry a set a material using the `Mesh` class.', () => {
+    it('should be able to create a mesh using the `Mesh` class after create a geometry and set a material.', () => {
       //Act
       builder.createGeometry();
       builder.setMaterial({color: 'rgb(255, 255, 255)'});
@@ -81,7 +81,7 @@ describe('The LightBulbSphere class', () => {
       expect(act).toThrowError();
     });
 
-    it('should throw an Error when tries to create a Mesh without having setted a Material.t', () => {
+    it('should throw an Error when tries to create a Mesh without having created a Material.', () => {
       // Prepare
       builder.createGeometry();
 
