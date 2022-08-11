@@ -1,5 +1,5 @@
 import {AmbientLight} from 'three';
-import {assertShapeConstructorBuilder} from '../helpers/builder-test';
+import {assertConstructorBuilder} from '../helpers/builder-test';
 import {CharcoalAmbienLightBuilder} from '../../../src/builders/lights/charcoal-ambient-light-builder';
 
 jest.mock('three');
@@ -18,7 +18,7 @@ describe('The CharcoalAmbienLightBuilder class', () => {
       builder = new CharcoalAmbienLightBuilder();
 
       //Assert
-      assertShapeConstructorBuilder(builder, spy);
+      assertConstructorBuilder(builder, spy);
     });
   });
 
